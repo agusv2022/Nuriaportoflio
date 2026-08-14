@@ -1,0 +1,233 @@
+# Configuración de Pages CMS — https://pagescms.org
+# Nuria entra en https://app.pagescms.org, conecta el repo de GitHub
+# y edita todo lo de abajo desde un formulario. Al guardar hace commit,
+# Cloudflare Pages detecta el push y republica.
+
+media:
+  input: public/images
+  output: /images
+  categories: [image]
+
+content:
+  - name: projects
+    label: Proyectos
+    type: collection
+    path: src/content/projects
+    format: yaml-frontmatter
+    filename: "{fields.title}.md"
+    view:
+      fields: [title, category, year, order]
+      primary: title
+      sort: [order, title, year]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - { name: title, label: Nombre del proyecto, type: string, required: true }
+      - { name: category, label: Sector, type: string, required: true }
+      - { name: year, label: Año, type: string, required: true }
+      - { name: order, label: Orden, type: number, default: 99 }
+      - { name: client, label: Cliente, type: string }
+      - { name: excerpt, label: Frase resumen, type: text, required: true }
+      - { name: cover, label: Imagen de portada, type: image, required: true }
+      - { name: coverAlt, label: Texto alternativo de la portada, type: string, required: true }
+      - { name: draft, label: Borrador (no se publica), type: boolean, default: false }
+      - name: services
+        label: Servicios aplicados
+        type: string
+        list:
+          collapsible: { collapsed: false, summary: "{index}" }
+      - name: results
+        label: Resultados
+        type: object
+        list:
+          collapsible: { collapsed: true, summary: "{figure} — {label}" }
+        fields:
+          - { name: figure, label: Cifra, type: string }
+          - { name: label, label: Qué mide, type: string }
+      - name: gallery
+        label: Galería
+        type: object
+        list:
+          collapsible: { collapsed: true, summary: "Imagen {index}" }
+        fields:
+          - { name: src, label: Imagen, type: image }
+          - { name: alt, label: Texto alternativo, type: string }
+      - { name: body, label: El caso, type: rich-text }
+
+  - name: site
+    label: Contenido de la web
+    path: src/content/site.json
+    type: file
+    format: json
+    fields:
+      - { name: brand, label: Nombre de marca, type: string }
+      - { name: seoTitle, label: Título SEO, type: string }
+      - { name: seoDescription, label: Descripción SEO, type: text }
+
+      - name: nav
+        label: Menú
+        type: object
+        list:
+          collapsible: { collapsed: true, summary: "{label}" }
+        fields:
+          - { name: label, label: Texto, type: string }
+          - { name: href, label: Enlace, type: string }
+
+      - name: contactButton
+        label: Botón flotante de contacto
+        type: object
+        fields:
+          - { name: label, label: Texto, type: string }
+          - { name: href, label: Enlace, type: string }
+
+      - name: hero
+        label: Portada
+        type: object
+        fields:
+          - { name: eyebrow, label: Antetítulo, type: string }
+          - { name: titleLine1, label: Titular línea 1, type: string }
+          - { name: titleLine2, label: Titular línea 2, type: string }
+          - { name: titleItalic, label: Palabra en cursiva, type: string }
+          - { name: titleLine3, label: Titular línea 3, type: string }
+          - { name: text, label: Párrafo, type: text }
+
+      - name: workIntro
+        label: Titular de la sección Work
+        type: object
+        fields:
+          - { name: line1, label: Línea 1, type: string }
+          - { name: line2, label: Línea 2, type: string }
+
+      - name: featured
+        label: Portada — proyecto destacado
+        type: object
+        fields:
+          - name: project
+            label: Proyecto
+            type: reference
+            options:
+              collection: projects
+              search: "title"
+              label: "{title}"
+
+      - name: fullBleed
+        label: Portada — proyecto a ancho completo
+        type: object
+        fields:
+          - name: project
+            label: Proyecto
+            type: reference
+            options:
+              collection: projects
+              search: "title"
+              label: "{title}"
+
+      - name: trio
+        label: Portada — proyecto a tres columnas
+        type: object
+        fields:
+          - name: project
+            label: Proyecto
+            type: reference
+            options:
+              collection: projects
+              search: "title"
+              label: "{title}"
+            label: Las tres imágenes
+            type: object
+            list:
+              min: 3
+              max: 3
+              collapsible: { collapsed: false, summary: "Imagen {index}" }
+            fields:
+              - { name: src, label: Imagen, type: image }
+              - { name: alt, label: Texto alternativo, type: string }
+
+      - name: duo
+        label: Portada — proyecto a dos columnas
+        type: object
+        fields:
+          - name: project
+            label: Proyecto
+            type: reference
+            options:
+              collection: projects
+              search: "title"
+              label: "{title}"
+          - { name: headingLine1, label: Titular línea 1, type: string }
+          - { name: headingLine2, label: Titular línea 2, type: string }
+          - { name: headingLine3, label: Titular línea 3, type: string }
+          - { name: text, label: Párrafo, type: text }
+          - { name: ctaLabel, label: Texto del botón, type: string }
+          - { name: ctaHref, label: Enlace del botón, type: string }
+
+      - name: services
+        label: Servicios
+        type: object
+        fields:
+          - { name: eyebrow, label: Antetítulo, type: string }
+          - { name: heading, label: Titular, type: string }
+          - name: items
+            label: Lista de servicios
+            type: object
+            list:
+              collapsible: { collapsed: true, summary: "{number} — {name}" }
+            fields:
+              - { name: number, label: Número, type: string }
+              - { name: name, label: Nombre, type: string }
+              - { name: text, label: Descripción, type: text }
+
+      - name: about
+        label: Sobre mí
+        type: object
+        fields:
+          - { name: eyebrow, label: Antetítulo, type: string }
+          - { name: statementLine1, label: Frase línea 1, type: string }
+          - { name: statementItalic, label: Palabra en cursiva, type: string }
+          - { name: statementLine2, label: Frase línea 2, type: string }
+          - { name: portrait, label: Retrato, type: image }
+          - { name: portraitAlt, label: Texto alternativo, type: string }
+          - { name: location, label: Ubicación, type: string }
+          - { name: bio, label: Párrafos de biografía, type: text, list: true }
+
+      - name: contact
+        label: Contacto
+        type: object
+        fields:
+          - { name: eyebrow, label: Antetítulo, type: string }
+          - { name: titleStart, label: Titular, type: string }
+          - { name: titleItalic, label: Palabra en cursiva, type: string }
+          - { name: text, label: Párrafo, type: text }
+          - { name: email, label: Email, type: string }
+          - { name: formAction, label: URL del formulario, type: string }
+          - { name: submitLabel, label: Texto del botón, type: string }
+          - name: socials
+            label: Redes
+            type: object
+            list:
+              collapsible: { collapsed: true, summary: "{label}" }
+            fields:
+              - { name: label, label: Nombre, type: string }
+              - { name: href, label: Enlace, type: string }
+
+      - name: footer
+        label: Pie
+        type: object
+        fields:
+          - { name: copyright, label: Copyright, type: string }
+          - name: links
+            label: Enlaces
+            type: object
+            list:
+              collapsible: { collapsed: true, summary: "{label}" }
+            fields:
+              - { name: label, label: Texto, type: string }
+              - { name: href, label: Enlace, type: string }
+
+settings:
+  commit:
+    templates:
+      update: "contenido: actualiza {filename}"
+      create: "contenido: crea {filename}"
+      delete: "contenido: borra {filename}"
