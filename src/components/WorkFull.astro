@@ -1,0 +1,35 @@
+---
+import WorkCard from "./WorkCard.astro";
+const { workIntro, fullBleed } = Astro.props;
+---
+<section id="work">
+  <div class="wrap intro g">
+    <h2 class="panel" data-anim="title">
+      {workIntro.line1}<br />{workIntro.line2}
+    </h2>
+  </div>
+
+  <div class="bleed">
+    <WorkCard
+      image={fullBleed.image}
+      alt={fullBleed.alt}
+      category={fullBleed.category}
+      year={fullBleed.year}
+      title={fullBleed.title}
+      href={fullBleed.href}
+      height="clamp(460px, 82vh, 780px)"
+    />
+  </div>
+</section>
+
+<style>
+  .intro{margin-bottom:var(--s6)}
+  .intro h2{grid-column:3 / span 6}
+  .bleed{width:100vw;margin-left:calc(50% - 50vw)}
+
+  @media(max-width:1024px){ .intro h2{grid-column:1 / span 7} }
+  @media(max-width:640px){
+    .intro h2{grid-column:1 / -1}
+    .bleed :global(.fig){height:auto !important;aspect-ratio:3 / 4}
+  }
+</style>

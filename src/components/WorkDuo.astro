@@ -1,0 +1,46 @@
+---
+import WorkCard from "./WorkCard.astro";
+const { duo } = Astro.props;
+---
+<section>
+  <div class="wrap duo g">
+    <div class="ph">
+      <WorkCard
+        image={duo.image}
+        alt={duo.alt}
+        category={duo.category}
+        year={duo.year}
+        title={duo.title}
+        href={duo.href}
+        ratio="5 / 4"
+      />
+    </div>
+
+    <div class="tx panel" data-anim="fade">
+      <p class="meta">{duo.category} · {duo.year}</p>
+      <h2 data-anim="title">
+        {duo.headingLine1}<br />{duo.headingLine2}<br />{duo.headingLine3}
+      </h2>
+      <p class="small" data-anim="read">{duo.text}</p>
+      <a class="btn" href={duo.ctaHref}>
+        <span>{duo.ctaLabel}</span><i>&rarr;</i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ph{grid-column:1 / span 7}
+  .tx{grid-column:9 / span 4;align-self:center}
+  .tx h2{margin-block:var(--s2) var(--s3)}
+  .tx .btn{margin-top:var(--s4)}
+
+  @media(max-width:1024px){
+    .ph{grid-column:1 / span 8}
+    .tx{grid-column:1 / span 8;margin-top:var(--s4)}
+  }
+  @media(max-width:640px){
+    .ph,.tx{grid-column:1 / -1}
+    .tx .btn{width:100%;justify-content:center}
+  }
+</style>

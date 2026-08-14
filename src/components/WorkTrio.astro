@@ -1,0 +1,55 @@
+---
+const { trio } = Astro.props;
+---
+<section class="trio-section">
+  <div class="wrap">
+    <div class="trio g">
+      {trio.images.map((img, i) => (
+        <div class={`col c${i + 1}`}>
+          <div class="card" data-cursor={i === 1 ? "" : null}>
+            <div class="fig" data-reveal>
+              <div class="fig-move" data-parallax>
+                <img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
+              </div>
+              <span class="tint"></span>
+              {i === 1 && <span class="veil"></span>}
+              {i === 1 && (
+                <div class="on-img">
+                  <a href={trio.href}>
+                    <p class="k">{trio.category} · {trio.year}</p>
+                    <span class="t">{trio.title}</span>
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* columnado de tres, tal cual el frame: cuatro columnas cada una */
+  .c1{grid-column:1 / span 4}
+  .c2{grid-column:5 / span 4}
+  .c3{grid-column:9 / span 4}
+  .c1 :global(.fig),.c3 :global(.fig){aspect-ratio:3 / 4}
+  .c2 :global(.fig){aspect-ratio:3 / 4}
+
+  /* las laterales sólo se tintan; la central es la que lleva al proyecto */
+  .c1 :global(.card:hover .tint),.c3 :global(.card:hover .tint){opacity:.6}
+
+  @media(max-width:1024px){
+    .c1{grid-column:1 / span 4}
+    .c2{grid-column:5 / span 4}
+    .c3{grid-column:1 / span 8;margin-top:var(--gut)}
+    .c3 :global(.fig){aspect-ratio:16 / 9}
+  }
+  @media(max-width:640px){
+    .c1,.c2,.c3{grid-column:1 / -1}
+    .c2{order:-1}
+    .c1,.c3{margin-top:var(--gut)}
+    .c1 :global(.fig),.c3 :global(.fig){aspect-ratio:4 / 3}
+  }
+</style>

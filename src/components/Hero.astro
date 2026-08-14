@@ -1,0 +1,44 @@
+---
+import WorkCard from "./WorkCard.astro";
+const { hero, featured } = Astro.props;
+---
+<div class="wrap hero g">
+  <div class="hero-l panel" data-anim="fade">
+    <p class="eyebrow">{hero.eyebrow}</p>
+    <h1 data-anim="title">
+      {hero.titleLine1}<br />{hero.titleLine2}<em>{hero.titleItalic}</em><br />{hero.titleLine3}
+    </h1>
+    <p class="lede" data-anim="read">{hero.text}</p>
+  </div>
+
+  <div class="hero-r">
+    <WorkCard
+      image={featured.image}
+      alt={featured.alt}
+      category={featured.category}
+      year={featured.year}
+      title={featured.title}
+      href={featured.href}
+      height="clamp(380px, 62vh, 600px)"
+    />
+  </div>
+</div>
+
+<style>
+  .hero{padding-block:clamp(20px,2.4vw,44px) var(--sec)}
+  .hero-l{grid-column:1 / span 5;align-self:center}
+  .hero-r{grid-column:7 / span 6}
+  .hero h1{margin-block:var(--s3)}
+  .hero .lede{max-width:34ch}
+
+  @media(max-width:1024px){
+    .hero-l{grid-column:1 / span 8}
+    .hero-r{grid-column:1 / span 8;margin-top:var(--s5)}
+    .hero-r :global(.fig){height:auto !important;aspect-ratio:16 / 11}
+  }
+  @media(max-width:640px){
+    .hero-l,.hero-r{grid-column:1 / -1}
+    .hero-r{margin-top:var(--s4)}
+    .hero-r :global(.fig){aspect-ratio:4 / 5}
+  }
+</style>

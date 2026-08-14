@@ -1,0 +1,87 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import site from "../../content/site.json";
+
+const projects = (await getCollection("projects", ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<Base
+  title={`Work — ${site.brand}`}
+  description="Selected brand strategy and positioning projects."
+>
+  <Header brand={site.brand} nav={site.nav} contactButton={site.contactButton} />
+
+  <main>
+    <div class="wrap head">
+      <p class="eyebrow" data-anim="fade">Work</p>
+      <h1 data-anim="title">Selected projects.</h1>
+    </div>
+
+    <div class="wrap list">
+      {projects.map((p, i) => (
+        <a class={`row card ${i % 2 ? "flip" : ""}`} href={`/work/${p.id}`} data-cursor>
+          <div class="ph">
+            <div class="fig" data-reveal>
+              <div class="fig-move" data-parallax>
+                <img src={p.data.cover} alt={p.data.coverAlt} loading="lazy" decoding="async" />
+              </div>
+              <span class="tint"></span>
+            </div>
+          </div>
+          <div class="tx">
+            <p class="meta">{p.data.category} · {p.data.year}</p>
+            <h2>{p.data.title}</h2>
+            <p class="small">{p.data.excerpt}</p>
+            <ul class="tags">
+              {p.data.services.map((s) => <li>{s}</li>)}
+            </ul>
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+
+  <Footer footer={site.footer} />
+</Base>
+
+<style>
+  .head{padding-block:clamp(30px,4vw,60px) var(--sec)}
+  .head .eyebrow{margin-bottom:var(--s3)}
+
+  .list{padding-bottom:var(--sec);display:flex;flex-direction:column;gap:var(--sec)}
+
+  .row{
+    display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gut);
+    text-decoration:none;color:inherit;align-items:center;
+  }
+  .row .ph{grid-column:1 / span 7}
+  .row .tx{grid-column:9 / span 4}
+  .row.flip .ph{grid-column:6 / span 7;order:2}
+  .row.flip .tx{grid-column:1 / span 4;order:1}
+  .row .fig{aspect-ratio:5 / 4}
+
+  .tx h2{margin-block:var(--s2) var(--s3);transition:color .35s var(--ease)}
+  .row:hover h2{color:var(--blue-ink)}
+
+  .tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:var(--s3) 0 0;padding:0}
+  .tags li{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--gray);border:1px solid var(--line);padding:6px 12px;
+    transition:border-color .35s var(--ease),color .35s var(--ease);
+  }
+  .row:hover .tags li{border-color:var(--blue);color:var(--blue-ink)}
+
+  @media(max-width:1024px){
+    .row .ph,.row.flip .ph{grid-column:1 / -1;order:1}
+    .row .tx,.row.flip .tx{grid-column:1 / -1;order:2}
+  }
+  @media(max-width:640px){
+    .row .fig{aspect-ratio:4 / 3}
+    .list{gap:var(--s6)}
+  }
+</style>

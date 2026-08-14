@@ -1,0 +1,180 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import site from "../../content/site.json";
+
+export async function getStaticPaths() {
+  const projects = (await getCollection("projects", ({ data }) => !data.draft)).sort(
+    (a, b) => a.data.order - b.data.order
+  );
+
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+const { project, next } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+---
+
+<Base title={`${d.title} — ${site.brand}`} description={d.excerpt}>
+  <Header brand={site.brand} nav={site.nav} contactButton={site.contactButton} />
+
+  <main>
+    <div class="wrap head g">
+      <div class="ttl">
+        <p class="meta" data-anim="fade">{d.category} · {d.year}</p>
+        <h1 data-anim="title">{d.title}</h1>
+      </div>
+      <p class="lede" data-anim="read">{d.excerpt}</p>
+    </div>
+
+    <div class="bleed">
+      <div class="fig" data-reveal>
+        <div class="fig-move" data-parallax>
+          <img src={d.cover} alt={d.coverAlt} fetchpriority="high" decoding="async" />
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap facts g">
+      <dl class="spec">
+        {d.client && (<><dt>Client</dt><dd>{d.client}</dd></>)}
+        <dt>Year</dt><dd>{d.year}</dd>
+        <dt>Scope</dt><dd>{d.services.join(", ")}</dd>
+      </dl>
+
+      {d.results.length > 0 && (
+        <ul class="results">
+          {d.results.map((r) => (
+            <li>
+              <strong>{r.figure}</strong>
+              <span>{r.label}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <article class="wrap body g">
+      <div class="prose"><Content /></div>
+    </article>
+
+    {d.gallery.length > 0 && (
+      <div class="wrap gallery g">
+        {d.gallery.map((img, i) => (
+          <div class={`shot s${i % 3}`}>
+            <div class="fig" data-reveal>
+              <div class="fig-move" data-parallax>
+                <img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <section class="next">
+      <div class="wrap">
+        <p class="eyebrow" data-anim="fade">Next project</p>
+        <a class="next-link" href={`/work/${next.id}`}>
+          <h2 data-anim="title">{next.data.title}</h2>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 L12 4 M6 4 H12 V10" /></svg>
+        </a>
+        <a class="btn btn-ghost back" href="/work"><span>All work</span></a>
+      </div>
+    </section>
+  </main>
+
+  <Footer footer={site.footer} />
+</Base>
+
+<style>
+  .head{padding-block:clamp(28px,3.4vw,56px) var(--s6);align-items:end}
+  .head .ttl{grid-column:1 / span 6}
+  .head .lede{grid-column:8 / span 5;max-width:40ch}
+  .head h1{margin-top:var(--s3)}
+
+  .bleed{width:100vw;margin-left:calc(50% - 50vw)}
+  .bleed .fig{height:clamp(320px,62vh,620px)}
+
+  .facts{padding-block:var(--s6)}
+  .spec{
+    grid-column:1 / span 5;margin:0;
+    display:grid;grid-template-columns:auto 1fr;gap:12px var(--s4);
+    align-content:start;
+  }
+  .spec dt{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--gray);padding-top:4px;
+  }
+  .spec dd{margin:0;font-size:15px;color:var(--ink)}
+
+  .results{
+    grid-column:7 / span 6;list-style:none;margin:0;padding:0;
+    display:flex;gap:var(--s5);flex-wrap:wrap;
+  }
+  .results strong{
+    display:block;font-family:var(--display);font-weight:400;
+    font-size:clamp(30px,3.4vw,48px);line-height:1;color:var(--blue-ink);
+  }
+  .results span{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--gray);display:block;margin-top:10px;
+  }
+
+  .body{padding-bottom:var(--sec)}
+  .prose{grid-column:3 / span 7}
+  .prose :global(h2){
+    font-size:clamp(24px,2.4vw,34px);
+    margin-block:var(--s6) var(--s3);
+  }
+  .prose :global(h2:first-child){margin-top:0}
+  .prose :global(p){
+    font-size:17px;line-height:1.8;color:var(--gray);
+    margin-bottom:1.4em;max-width:62ch;
+  }
+  .prose :global(strong){color:var(--ink);font-weight:500}
+
+  .gallery{padding-bottom:var(--sec);row-gap:var(--gut)}
+  .shot.s0{grid-column:1 / span 7}
+  .shot.s1{grid-column:8 / span 5;align-self:end}
+  .shot.s2{grid-column:3 / span 8}
+  .shot.s0 .fig{aspect-ratio:4 / 3}
+  .shot.s1 .fig{aspect-ratio:3 / 4}
+  .shot.s2 .fig{aspect-ratio:16 / 9}
+
+  .next{background:var(--paper-2)}
+  .next .eyebrow{margin-bottom:var(--s4)}
+  .next-link{
+    display:inline-flex;align-items:center;gap:var(--s4);
+    text-decoration:none;color:inherit;transition:color .35s var(--ease);
+  }
+  .next-link h2{font-size:clamp(38px,6vw,88px);line-height:1}
+  .next-link svg{
+    width:clamp(26px,3vw,44px);height:clamp(26px,3vw,44px);
+    fill:none;stroke:currentColor;stroke-width:1.2;flex:none;
+    transition:transform .45s var(--ease);
+  }
+  .next-link:hover{color:var(--blue-ink)}
+  .next-link:hover svg{transform:translate(6px,-6px)}
+  .back{margin-top:var(--s6)}
+
+  @media(max-width:1024px){
+    .head .ttl,.head .lede{grid-column:1 / -1}
+    .head .lede{margin-top:var(--s4)}
+    .spec{grid-column:1 / -1}
+    .results{grid-column:1 / -1;margin-top:var(--s5);gap:var(--s4)}
+    .prose{grid-column:1 / span 8}
+    .shot.s0,.shot.s1,.shot.s2{grid-column:1 / -1}
+  }
+  @media(max-width:640px){
+    .prose{grid-column:1 / -1}
+    .prose :global(p){font-size:16px}
+    .back{width:100%;justify-content:center}
+  }
+</style>

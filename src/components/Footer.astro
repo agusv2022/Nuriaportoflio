@@ -1,0 +1,25 @@
+---
+const { footer } = Astro.props;
+---
+<footer class="site-footer">
+  <div class="wrap row">
+    <span>{footer.copyright}</span>
+    <div class="links">
+      {footer.links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer{border-top:1px solid var(--line);padding-block:var(--s5)}
+  .row{
+    display:flex;justify-content:space-between;gap:var(--s3);flex-wrap:wrap;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gray);
+  }
+  .links{display:flex;gap:var(--s4)}
+  .links a{text-decoration:none;transition:color .3s}
+  .links a:hover{color:var(--blue-ink)}
+  @media(max-width:640px){
+    .site-footer{padding-bottom:calc(var(--s5) + 70px)} /* hueco para el botón flotante */
+  }
+</style>

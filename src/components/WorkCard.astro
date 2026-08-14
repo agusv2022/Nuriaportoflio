@@ -1,0 +1,21 @@
+---
+// Ficha de trabajo. La imagen NO es el enlace:
+// sólo el texto que aparece en hover lleva al proyecto completo.
+const { image, alt, category, year, title, href, ratio = "3 / 4", height } = Astro.props;
+const figStyle = height ? `height:${height}` : `aspect-ratio:${ratio}`;
+---
+<div class="card" data-cursor>
+  <div class="fig" style={figStyle} data-reveal>
+    <div class="fig-move" data-parallax>
+      <img src={image} alt={alt} loading="lazy" decoding="async" />
+    </div>
+    <span class="tint"></span>
+    <span class="veil"></span>
+    <div class="on-img">
+      <a href={href}>
+        <p class="k">{category} · {year}</p>
+        <span class="t">{title}</span>
+      </a>
+    </div>
+  </div>
+</div>

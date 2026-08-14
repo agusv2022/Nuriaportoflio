@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import WorkFull from "../components/WorkFull.astro";
+import WorkTrio from "../components/WorkTrio.astro";
+import WorkDuo from "../components/WorkDuo.astro";
+import Services from "../components/Services.astro";
+import About from "../components/About.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+import site from "../content/site.json";
+
+const projects = await getCollection("projects", ({ data }) => !data.draft);
+const bySlug = Object.fromEntries(projects.map((p) => [p.id, p.data]));
+
+/* El CMS guarda la referencia como ruta completa del archivo.
+   Aceptamos también un slug suelto, por si se escribe a mano. */
+const slugOf = (ref) => String(ref).split("/").pop().replace(/\.md$/, "");
+
+function resolve(ref) {
+  const slug = slugOf(ref);
+  const d = bySlug[slug];
+  if (!d) throw new Error(`No existe el proyecto "${slug}". Revisa src/content/projects/`);
+  return {
+    ...d,
+    href: `/work/${slug}`,
+    image: d.cover,
+    alt: d.coverAlt,
+  };
+}
+
+const featured = resolve(site.featured.project);
+const fullBleed = resolve(site.fullBleed.project);
+const trioProject = resolve(site.trio.project);
+const trio = { ...trioProject, images: trioProject.gallery.slice(0, 3) };
+const duo = { ...resolve(site.duo.project), ...site.duo };
+---
+
+<Base title={site.seoTitle} description={site.seoDescription}>
+  <Header brand={site.brand} nav={site.nav} contactButton={site.contactButton} />
+
+  <main>
+    <Hero hero={site.hero} featured={featured} />
+    <WorkFull workIntro={site.workIntro} fullBleed={fullBleed} />
+    <WorkTrio trio={trio} />
+    <WorkDuo duo={duo} />
+    <Services services={site.services} />
+    <About about={site.about} />
+    <Contact contact={site.contact} />
+  </main>
+
+  <Footer footer={site.footer} />
+</Base>
