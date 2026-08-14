@@ -231,3 +231,5 @@ settings:
       update: "contenido: actualiza {filename}"
       create: "contenido: crea {filename}"
       delete: "contenido: borra {filename}"
+
+      
