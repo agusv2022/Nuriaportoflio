@@ -1,0 +1,22 @@
+# Cabeceras de caché para Cloudflare Pages.
+# Sin esto, el HTML y las fotos se quedan cacheados en el CDN
+# y los cambios del CMS tardan en verse.
+
+# HTML: nunca se cachea. Siempre revalida contra el servidor.
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# CSS y JS: Astro les pone un hash en el nombre, así que
+# cuando cambian cambia la URL. Se pueden cachear para siempre.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fotos: diez minutos. Suficiente para no penalizar la carga,
+# poco para que un reemplazo se vea casi al momento.
+/images/*
+  Cache-Control: public, max-age=600, must-revalidate
+
+/favicon.svg
+  Cache-Control: public, max-age=86400

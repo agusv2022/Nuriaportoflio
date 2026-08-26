@@ -1,6 +1,6 @@
 {
   "brand": "Nuria Iglesias",
-  "seoTitle": "Nuria Iglesias — Hola",
+  "seoTitle": "Nuria Iglesias — Brand strategy & positioning",
   "seoDescription": "Market analysis, benchmarking and brand strategy for businesses that already have a good product and can't explain it. Valencia, Spain.",
   "nav": [
     {
@@ -21,8 +21,8 @@
     "href": "#contact"
   },
   "hero": {
-    "eyebrow": "Hola — Valencia",
-    "titleLine1": "hola",
+    "eyebrow": "Brand strategy & positioning — Valencia",
+    "titleLine1": "Before you say",
     "titleLine2": "anything, ",
     "titleItalic": "know what",
     "titleLine3": "to say.",
@@ -37,6 +37,9 @@
   },
   "fullBleed": {
     "project": "src/content/projects/casa-bruna.md"
+  },
+  "trio": {
+    "project": "src/content/projects/simil.md"
   },
   "duo": {
     "project": "src/content/projects/bodega-terral.md",
@@ -97,6 +100,7 @@
     "titleItalic": "collab",
     "text": "Tell me where your brand is stuck. I reply within 48 hours.",
     "email": "hello@nuriaiglesias.com",
+    "formAction": "",
     "submitLabel": "Send message",
     "socials": [
       {
