@@ -21,7 +21,7 @@
     "href": "#contact"
   },
   "hero": {
-    "eyebrow": "Brand strategy & positioning — Valencia",
+    "eyebrow": "Hola — Valencia",
     "titleLine1": "Before you say",
     "titleLine2": "anything, ",
     "titleItalic": "know what",
@@ -37,9 +37,6 @@
   },
   "fullBleed": {
     "project": "src/content/projects/casa-bruna.md"
-  },
-  "trio": {
-    "project": "src/content/projects/simil.md"
   },
   "duo": {
     "project": "src/content/projects/bodega-terral.md",
@@ -100,7 +97,6 @@
     "titleItalic": "collab",
     "text": "Tell me where your brand is stuck. I reply within 48 hours.",
     "email": "hello@nuriaiglesias.com",
-    "formAction": "",
     "submitLabel": "Send message",
     "socials": [
       {
