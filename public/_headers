@@ -7,6 +7,10 @@
   Cache-Control: public, max-age=0, must-revalidate
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  # ⚠ BORRAR ESTA LÍNEA AL LANZAR ⚠
+  # Impide que Google indexe el sitio mientras las fotos
+  # y los textos sean provisionales.
+  X-Robots-Tag: noindex, nofollow
 
 # CSS y JS: Astro les pone un hash en el nombre, así que
 # cuando cambian cambia la URL. Se pueden cachear para siempre.

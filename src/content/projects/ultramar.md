@@ -5,17 +5,16 @@ year: "2026"
 order: 1
 client: Ultramar Swim
 excerpt: They were selling a niche product with big-box language.
-cover: /images/og_2.jpg
+cover: /images/ultramar.jpg
 coverAlt: Ultramar swimwear campaign
-draft: false
 services:
   - Market analysis
   - Audience & SWOT
   - Brand territory
 results:
-  - figure: 3×
+  - figure: "3×"
     label: Average order value
-  - figure: -41%
+  - figure: "-41%"
     label: Discount dependency
   - figure: "12"
     label: New stockists
@@ -25,6 +24,7 @@ gallery:
   - src: /images/simil-1.jpg
     alt: Ultramar campaign, detail
 ---
+
 ## Where they were
 
 Ultramar had spent four years building a swimwear line made in Alicante, in

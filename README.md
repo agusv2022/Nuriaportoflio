@@ -80,13 +80,23 @@ contenido y subir fotos, pero no borrar el proyecto.
 
 ## El formulario de contacto
 
-Ahora mismo `formAction` está vacío, así que el formulario no envía nada.
-Dos opciones sin backend:
+El formulario ya funciona: valida los campos, avisa de los errores, envía por
+fetch sin recargar la página y confirma el resultado. Sólo le falta un destino.
 
-- **Formspree** — crea un formulario, copia la URL y pégala en
-  `contact.formAction` dentro del CMS.
-- **Cloudflare Web Forms / Pages Functions** — si prefieres no depender de
-  terceros, hace falta añadir una función en `functions/api/contact.js`.
+1. Crea un formulario en [Formspree](https://formspree.io) (el plan gratuito
+   cubre 50 mensajes al mes).
+2. Copia la URL que te dan, del estilo `https://formspree.io/f/xxxxxxx`.
+3. Pégala en el CMS: **Contenido de la web → Contacto → URL del formulario**.
+
+Hasta que se configure, al pulsar enviar aparece un aviso ofreciendo el correo
+directo, en vez de fallar en silencio.
+
+Lleva una trampa antispam invisible (`_gotcha`). Si un bot la rellena, el envío
+se descarta y se le devuelve un falso mensaje de éxito.
+
+Si prefieres no depender de un tercero estadounidense por el RGPD, la
+alternativa es una función en `functions/api/contact.js` que envíe el correo
+desde Cloudflare. En ese caso el campo pasa a ser `/api/contact`.
 
 ---
 

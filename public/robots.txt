@@ -1,4 +1,14 @@
+# ────────────────────────────────────────────────
+# EN OBRAS. Bloqueado mientras el contenido y las
+# fotos no sean los definitivos.
+#
+# AL LANZAR: borra las dos líneas de abajo y
+# descomenta el bloque siguiente.
+# ────────────────────────────────────────────────
 User-agent: *
-Allow: /
+Disallow: /
 
-Sitemap: https://nuriaiglesias.com/sitemap-index.xml
+# User-agent: *
+# Allow: /
+#
+# Sitemap: https://nuriaiglesias.com/sitemap-index.xml

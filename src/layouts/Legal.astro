@@ -1,0 +1,51 @@
+---
+import Base from "./Base.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import site from "../content/site.json";
+
+const { title, updated } = Astro.props;
+---
+
+<Base title={`${title} — ${site.brand}`} description={`${title} for ${site.brand}.`}>
+  <Header brand={site.brand} nav={site.nav} contactButton={site.contactButton} />
+
+  <main class="wrap legal">
+    <div class="head">
+      {updated && <p class="eyebrow">Last updated {updated}</p>}
+      <h1 data-anim="title">{title}</h1>
+    </div>
+
+    <article class="prose">
+      <slot />
+    </article>
+
+    <a class="btn btn-ghost" href="/"><span>Back to home</span></a>
+  </main>
+
+  <Footer footer={site.footer} />
+</Base>
+
+<style>
+  .legal{padding-block:clamp(28px,3.4vw,56px) var(--sec)}
+  .head{margin-bottom:var(--s6)}
+  .head .eyebrow{margin-bottom:var(--s3)}
+
+  .prose{max-width:66ch}
+  .prose :global(h2){
+    font-family:var(--display);font-weight:400;
+    font-size:clamp(22px,2.2vw,30px);line-height:1.15;
+    margin-block:var(--s6) var(--s3);
+  }
+  .prose :global(h2:first-child){margin-top:0}
+  .prose :global(p){
+    font-size:16px;line-height:1.85;color:var(--gray);margin-bottom:1.4em;
+  }
+  .prose :global(strong){color:var(--ink);font-weight:500}
+  .prose :global(a){color:var(--blue-ink);text-decoration:underline;text-underline-offset:3px}
+  .prose :global(ul){padding-left:1.2em;margin-bottom:1.4em}
+  .prose :global(li){font-size:16px;line-height:1.85;color:var(--gray);margin-bottom:.5em}
+
+  .legal .btn{margin-top:var(--s6)}
+  @media(max-width:640px){ .legal .btn{width:100%;justify-content:center} }
+</style>

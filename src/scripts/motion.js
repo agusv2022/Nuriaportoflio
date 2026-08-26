@@ -2,6 +2,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CustomEase } from "gsap/CustomEase";
 import Lenis from "lenis";
+import { initForm } from "./form.js";
 
 gsap.registerPlugin(ScrollTrigger, CustomEase);
 
@@ -285,6 +286,7 @@ function init() {
   scramble();
   cursor();
   header();
+  initForm();
   ScrollTrigger.refresh();
 }
 
