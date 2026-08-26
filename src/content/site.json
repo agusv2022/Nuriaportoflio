@@ -26,7 +26,7 @@
     "titleLine2": "anything, ",
     "titleItalic": "know what",
     "titleLine3": "to say.",
-    "text": "I read the market, the competition and the audience so a brand can stop improvising what it says."
+    "text": "hola nuria"
   },
   "workIntro": {
     "line1": "Brands that stopped",
@@ -37,9 +37,6 @@
   },
   "fullBleed": {
     "project": "src/content/projects/casa-bruna.md"
-  },
-  "trio": {
-    "project": "src/content/projects/simil.md"
   },
   "duo": {
     "project": "src/content/projects/bodega-terral.md",
