@@ -8,15 +8,27 @@
  * avisa y ofrece el correo directo.
  */
 
-const MESSAGES = {
-  empty: "Fill in every field before sending.",
-  email: "That email address doesn't look right.",
-  sending: "Sending…",
-  ok: "Thanks — your message is on its way. I reply within 48 hours.",
-  fail: "Something went wrong. Write to hello@nuriaiglesias.com instead.",
-  network: "No connection. Check your network and try again.",
-  offline: "The form isn't connected yet. Please write to hello@nuriaiglesias.com.",
-};
+/* La dirección se lee del enlace mailto de la página, que sale del CMS.
+   Así, si Nuria la cambia, los mensajes de error la siguen. */
+function siteEmail() {
+  const link = document.querySelector('a[href^="mailto:"]');
+  return link ? link.getAttribute("href").replace("mailto:", "").trim() : null;
+}
+
+function messages() {
+  const mail = siteEmail();
+  const fallback = mail ? ` Write to ${mail} instead.` : " Please try again later.";
+  const offline = mail ? ` Please write to ${mail}.` : "";
+  return {
+    empty: "Fill in every field before sending.",
+    email: "That email address doesn't look right.",
+    sending: "Sending…",
+    ok: "Thanks — your message is on its way. I reply within 48 hours.",
+    fail: `Something went wrong.${fallback}`,
+    network: "No connection. Check your network and try again.",
+    offline: `The form isn't connected yet.${offline}`,
+  };
+}
 
 function capitalise(text) {
   const clean = String(text).trim();
@@ -30,6 +42,8 @@ function isEmail(value) {
 export function initForm() {
   const form = document.querySelector("[data-form]");
   if (!form) return;
+
+  const MESSAGES = messages();
 
   const status = form.querySelector("[data-status]");
   const button = form.querySelector("[data-submit]");
